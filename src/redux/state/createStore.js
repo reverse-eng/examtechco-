@@ -32,8 +32,8 @@ const initialState = {
 
 
 //only use during development to see state change and initial build
-const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
-//const composeEnhancers = compose;
+//const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+const composeEnhancers = compose;
 const Store = () => createStore(reducer, initialState, composeEnhancers(applyMiddleware(thunk)))
 
 
