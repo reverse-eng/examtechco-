@@ -19,7 +19,6 @@ const Login = ({ user, LogInClick, redirectTo}) => {
         LogInClick(formData)
     }
     if (redirectTo){
-      debugger
       navigate(redirectTo)
       return null
     }
