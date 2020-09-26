@@ -19,7 +19,10 @@ const Login = ({ user, LogInClick, redirectTo}) => {
         LogInClick(formData)
     }
     if (redirectTo){
+      //added because navigate uses the window object and build will break if not added 
+      if (typeof window !== 'undefined') {
       navigate(redirectTo)
+      }
       return null
     }
       

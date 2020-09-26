@@ -22,18 +22,18 @@ exports.onCreatePage = async ({ page, actions }) => {
     
   }
 
-  exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
-    if (stage === 'build-html') {
-      // Exclude Sign-In Widget from compilation path
-      actions.setWebpackConfig({
-        module: {
-          rules: [
-            {
-              test: /app/,
-              use: loaders.null(),
-            }
-          ],
-        },
-      })
-    }
-  };
+  // exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
+  //   if (stage === 'build-html') {
+  //     // Exclude Sign-In Widget from compilation path
+  //     actions.setWebpackConfig({
+  //       module: {
+  //         rules: [
+  //           {
+  //             test: /app/,
+  //             use: loaders.null(),
+  //           }
+  //         ],
+  //       },
+  //     })
+  //   }
+  // };
