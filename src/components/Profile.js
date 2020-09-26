@@ -1,12 +1,22 @@
 
 import React from "react"
-const Profile = () => (
+import { connect} from "react-redux"
+
+
+const Profile = ({ user}) => (
   <>
     <h1>Your profile</h1>
     <ul>
-      <li>Name: Your name will appear here</li>
-      <li>E-mail: And here goes the mail</li>
+      <li>Name: {user.user.username}</li>
+      <li>E-mail: {user.user.email}</li>
     </ul>
   </>
 )
-export default Profile
+
+const mapStateToProps = ({ user}) => {
+  return {
+  user
+}};
+
+
+export default connect(mapStateToProps)(Profile)
