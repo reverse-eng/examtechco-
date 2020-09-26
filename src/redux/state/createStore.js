@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
-import {SET_USER_DETAILS, SET_ERROR_RESPONSE} from '../actions/types';
+import {SET_USER_DETAILS, SET_ERROR_RESPONSE, REDIRECT} from '../actions/types';
 
 const reducer = (state, action) => {
     switch(action.type){
@@ -16,6 +16,8 @@ const reducer = (state, action) => {
             return {...state, user: action.payload }
         case SET_ERROR_RESPONSE: 
             return {...state, errorResponse: action.payload }
+        case REDIRECT:
+            return { ...state, redirectTo: action.payload };
         default: 
             return state
     }
@@ -27,9 +29,11 @@ const initialState = {
     errorResponse:{},
 
 }
-//only use during development to see state change
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+
+//only use during development to see state change and initial build
+const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+//const composeEnhancers = compose;
 const Store = () => createStore(reducer, initialState, composeEnhancers(applyMiddleware(thunk)))
 
 
