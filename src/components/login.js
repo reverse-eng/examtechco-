@@ -7,7 +7,7 @@ import { connect} from "react-redux"
 
 
 
-const Login = ({ user, LogInClick, redirectTo}) => {
+const Login = ({ user, LogInClick, redirectToLogin, redirectToStartExam}) => {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     
@@ -18,12 +18,20 @@ const Login = ({ user, LogInClick, redirectTo}) => {
         formData.append('password', password)
         LogInClick(formData)
     }
-    if (redirectTo){
+    if (redirectToLogin && redirectToStartExam && Object.keys(user).length){
       //added because navigate uses the window object and build will break if not added 
       if (typeof window !== 'undefined') {
-      navigate(redirectTo)
+      navigate(redirectToStartExam)
+      console.log('redirect to start exam')
       }
       return null
+    } else if (redirectToLogin && !redirectToStartExam && Object.keys(user).length ){
+      //added because navigate uses the window object and build will break if not added 
+      if (typeof window !== 'undefined') {
+        navigate(redirectToLogin)
+        console.log('redirect to profile')
+        }
+        return null
     }
       
     return (
@@ -52,13 +60,13 @@ const Login = ({ user, LogInClick, redirectTo}) => {
   )
 }
   Login.propTypes = {
-    user: PropTypes.object.isRequired,
     LogInClick: PropTypes.func.isRequired
   }
-  const mapStateToProps = ({ user, redirectTo}) => {
+  const mapStateToProps = ({ user, redirectToLogin, redirectToStartExam}) => {
     return {
-    user,
-    redirectTo
+      user,
+      redirectToLogin,
+      redirectToStartExam
   }};
 
   const mapDispatchToProps = (dispatch) => {

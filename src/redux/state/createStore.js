@@ -1,6 +1,14 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
-import {SET_USER_DETAILS, SET_ERROR_RESPONSE, REDIRECT} from '../actions/types';
+import {
+    SET_EXAM_QAS,
+    GET_ALL_EXAMS, 
+    SET_USER_DETAILS, 
+    SET_ERROR_RESPONSE,
+    LOGIN_REDIRECT,
+    EXAM_START_REDIRECT,
+    CLEAR_REDIRECTS
+} from '../actions/types';
 
 const reducer = (state, action) => {
     switch(action.type){
@@ -16,8 +24,24 @@ const reducer = (state, action) => {
             return {...state, user: action.payload }
         case SET_ERROR_RESPONSE: 
             return {...state, errorResponse: action.payload }
-        case REDIRECT:
-            return { ...state, redirectTo: action.payload };
+        case LOGIN_REDIRECT:
+            return { ...state, redirectToLogin: action.payload };
+        case EXAM_START_REDIRECT: 
+            return { ...state, redirectToStartExam: action.payload }
+        case CLEAR_REDIRECTS: 
+              let redirects = ['redirectToStartExam', 'redirectToLogin'];
+              redirects.map(item=>{
+                   if (state[item] != undefined){
+                    delete state[item]
+                    }
+              })
+            return {...state}
+        case GET_ALL_EXAMS: {
+            return {...state, exams: action.payload}
+        }
+        case SET_EXAM_QAS: {
+            return {...state, examQAS: action.payload}
+        }
         default: 
             return state
     }
