@@ -1,4 +1,4 @@
-import React, { useEffect} from "react"
+import React, { useEffect, useState} from "react"
 import styled from "styled-components"
 import { navigate } from "gatsby"
 import { connect} from "react-redux"
@@ -9,14 +9,19 @@ import SEO from "../components/seo"
 import { allExams, getQuestionsForExam } from "../redux/actions"
 
 const Exams = ({user, exams, getExams, startExam, redirectToStartExam}) => {
-    useEffect(() => {
-        getExams();
-    }, [])
-
+  useEffect(() => {
+    getExams();
+  }, [])
 const handleStartExam = (id) => {
     console.log('EXAM ID - ',id );
     startExam(id)
+    //added because navigate uses the window object and build will break if not added 
+    if (typeof window !== 'undefined') {
+    navigate(redirectToStartExam)
+    }
 }
+
+
 if (redirectToStartExam && !Object.keys(user).length){
     //added because navigate uses the window object and build will break if not added 
     if (typeof window !== 'undefined') {
@@ -24,18 +29,21 @@ if (redirectToStartExam && !Object.keys(user).length){
     }
     return null
 }
+
+
 return (
     <Layout>
       <SEO title="Exams" />
-      <h1>Exams Available</h1>
-      {exams ? 
+      {exams && exams.length ? 
         exams.map((exam, index )=> (
-            <button onClick={() => handleStartExam(exam.id)} key={index}>{exam.name}</button>
+          <div key={index}>
+            <h2>Exams Available</h2>
+            <button onClick={() => handleStartExam(exam.id)} >{exam.name}</button>
+          </div>
         ))
         :
-          <h3>No Exams currently Available</h3>
+          <h2>No Exams currently Available</h2>
       }
-
     </Layout>
 )
 }

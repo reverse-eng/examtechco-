@@ -25,7 +25,8 @@ export const allExams = () => {
   return (dispatch)=>{
     return axios.get('https://api.beginfresh.xyz/exams')
     .then(({data}) => {
-      dispatch(setAllExams(data))
+      const activeExams = data.filter((exam) => exam.active)
+      dispatch(setAllExams(activeExams))
     })
     .catch((data) => {
       return dispatch(setErrorResponse(data.response.data.message[0].messages[0].message))
